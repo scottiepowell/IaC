@@ -1,12 +1,6 @@
 name: CI/CD
 
-on:
-  push:
-    branches:
-      - development
-    paths:
-      - /home/scott/oracle/oci-infra/apps/app-nginx-2
-  workflow_dispatch: 
+on: [push]
 
 jobs:
   build:
