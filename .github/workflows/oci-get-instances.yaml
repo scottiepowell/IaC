@@ -1,6 +1,6 @@
 name: get-instances
 
-on: [push]
+on: push
 
 jobs:
   my-instances:
