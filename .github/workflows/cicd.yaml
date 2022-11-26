@@ -5,7 +5,7 @@ on:
     branches:
       - development
     paths:
-      - apps/app-ngin**
+      - /home/scott/oracle/oci-infra/apps/app-nginx-2
   workflow_dispatch: 
 
 jobs:
