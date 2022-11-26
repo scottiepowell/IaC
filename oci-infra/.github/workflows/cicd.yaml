@@ -3,7 +3,7 @@ name: CI/CD
 on:
   push:
     branches:
-      - master
+      - development
     paths:
       - apps/app-nginx**
   workflow_dispatch: 
