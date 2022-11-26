@@ -5,7 +5,7 @@ on:
     branches:
       - development
     paths:
-      - apps/app-nginx**
+      - apps/app-ngin**
   workflow_dispatch: 
 
 jobs:
@@ -55,7 +55,7 @@ jobs:
         run: echo ${{ steps.buildx.outputs.platforms }}
       - name: Build
         run: |
-          docker build --push --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_URL }}/${{ secrets.DOCKER_OBJECT_STORAGE_NAMESPACE }}/free-kubernetes-nginx:latest app/.
+          docker build --push --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_URL }}/${{ secrets.DOCKER_OBJECT_STORAGE_NAMESPACE }}/free-kubernetes-nginx:latest apps/app-ngix-2 .
       - name: Deploy to K8S
         run: |
           sed -i 's/<DOCKER_OBJECT_STORAGE_NAMESPACE>/${{ secrets.DOCKER_OBJECT_STORAGE_NAMESPACE }}/g' oci-infra/apps/app-k8s-deployment.yaml
