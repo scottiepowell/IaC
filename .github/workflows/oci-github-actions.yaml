@@ -1,12 +1,6 @@
 name: OCI-kubectl
 
-on:
-  push:
-    branches:
-      - development
-    paths:
-      - /home/scott/oracle/**
-  workflow_dispatch: 
+on: push
 
 jobs:
   install-kubectl:
