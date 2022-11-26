@@ -1,3 +1,13 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - development
+    paths:
+      - /home/scott/oracle/*
+  workflow_dispatch: 
+
 jobs:
   install-kubectl:
     runs-on: ubuntu-latest
