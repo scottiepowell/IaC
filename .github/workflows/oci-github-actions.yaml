@@ -5,7 +5,7 @@ on:
     branches:
       - development
     paths:
-      - /home/scott/oracle/*
+      - /home/scott/oracle/**
   workflow_dispatch: 
 
 jobs:
