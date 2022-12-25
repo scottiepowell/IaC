@@ -1,0 +1,36 @@
+# Ignore compiled Python files
+*.pyc
+
+# Ignore build directories
+build/
+dist/
+
+# Ignore IDEs and text editors
+.vscode/
+.idea/
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore local configuration files
+*.env
+
+# Ignore logs and databases
+*.log
+*.sqlite3
+
+# Ignore Kubernetes files
+.kube/
+
+# Ignore Docker files
+Dockerfile
+.dockerignore
+
+# Ignore Terraform files
+*.tfstate
+*.tfstate.backup
+
+# Specific Files
+cloudflare*
+.password
