@@ -2,18 +2,21 @@
 .vscode
 # Local terraform directories
 **/.terraform/*
-.terraform*
-.terraform.*
-.terraform.lock.hcl
+**/.terraform*
+**/.terraform.*
+**/.terraform.lock.hcl
 
 # State files
-*.tfstate
-*.tfstate.*
+**/*.tfstate
+**/*.tfstate.*
 
 # Crash log files
-*.log
+**/*.log
 
 # Sensitive data
-*.tfvars
+**/*.tfvars
 **/keys/*
-provider.tf
+
+# YAML file
+**/.env
+
