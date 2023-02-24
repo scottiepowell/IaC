@@ -1,0 +1,70 @@
+# Define the version of the Docker Compose file
+version: '2.0'
+
+# Define the networks
+networks:
+  # Add Guacamole to the Nginx proxy manager network 'nginxproxymanager_default' in mode 'bridged'
+  nginxproxymanager_default:
+    driver: bridge
+
+# Define the services that make up the application
+services:
+  # Define the Guacd service
+  guacd:
+    container_name: guacd_compose
+    image: guacamole/guacd
+    networks:
+      nginxproxymanager_default:
+    restart: always
+    volumes:
+      - ./drive:/drive:rw
+      - ./record:/record:rw
+
+  # Define the Postgres service
+  postgres:
+    container_name: postgres_guacamole_compose
+    environment:
+      # Set the Postgres data directory
+      PGDATA: /var/lib/postgresql/data/guacamole
+      # Set the name of the Guacamole database
+      POSTGRES_DATABASE: ${$POST_DB}
+      # Set the password for the Postgres user
+      POSTGRES_PASSWORD: ${$POST_PASSWORD}
+      # Set the Postgres user name
+      POSTGRES_USER: ${$POST_USER}
+    image: postgres:13.4-buster
+    networks:
+      nginxproxymanager_default:
+    restart: always
+    volumes:
+      # Mount the directory for initialization scripts
+      - ./init:/docker-entrypoint-initdb.d:z
+      # Mount the directory for Postgres data
+      - ./data:/var/lib/postgresql/data:Z
+
+  # Define the Guacamole service
+  guacamole:
+    container_name: guacamole_compose
+    depends_on:
+      - guacd
+      - postgres
+    environment:
+      # Set the hostname for Guacd
+      GUACD_HOSTNAME: guacd
+      # Set the name of the Guacamole database
+      POSTGRES_DATABASE: ${$POST_DB}
+      # Set the hostname for Postgres
+      POSTGRES_HOSTNAME: ${$POST_HOST}
+      # Set the password for the Postgres user
+      POSTGRES_PASSWORD: ${$POST_PASSWORD}
+      # Set the Postgres user name
+      POSTGRES_USER: ${$POST_USER}
+    image: guacamole/guacamole
+    links:
+      - guacd
+    networks:
+      nginxproxymanager_default:
+    ports:
+      # Map port 8080 in the container to port 8080 on the host
+      - 8080:8080/tcp # Guacamole is on :8080/guacamole, not /.
+    restart: always

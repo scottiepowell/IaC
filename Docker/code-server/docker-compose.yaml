@@ -1,0 +1,45 @@
+---
+# Define the version of the Compose file format
+version: "2.1"
+
+# Define a network named "nginxproxymanager_default"
+networks:
+  default:
+    name: nginxproxymanager_default
+    external: true
+
+# Define a service named "code-server"
+services:
+  code-server:
+    # Use the "lscr.io/linuxserver/code-server:latest" image
+    image: lscr.io/linuxserver/code-server:latest
+    # Set the container name to "code-server"
+    container_name: code-server
+    # Set environment variables for the container
+    environment:
+      # Set the user ID inside the container to 1000
+      - PUID=1000
+      # Set the group ID inside the container to 1000
+      - PGID=1000
+      # Set the timezone inside the container to America/Denver
+      - TZ=America/Denver
+      # Set the password for code-server authentication
+      - PASSWORD=${password}
+      # Set the password for sudo
+      - SUDO_PASSWORD=${sudo_password}
+      # Set the default workspace directory
+      - DEFAULT_WORKSPACE=/config/workspace
+      # Use the "linuxserver/mods:code-server-python3" image for Docker mods
+      - DOCKER_MODS=linuxserver/mods:code-server-python3
+    # Mount two volumes into the container
+    volumes:
+      # Mount the directory for config as "/config" inside the container
+      - ${DIRECTORY_DATA_CONFIG}:/config
+      # Mounts the directory for py-dev as "/home/py-dev" inside the container
+      - ${DIRECTORY_DATA_PY-DEV}:/home/py-dev
+    # Publish port 8443 in the container to port 8443 on the host
+    ports:
+      - 8443:8443
+    # Restart the container unless stopped
+    restart: unless-stopped
+

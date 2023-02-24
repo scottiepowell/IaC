@@ -1,0 +1,24 @@
+# Specify the version of the Docker Compose file
+version: '3'
+
+# Define the services that make up the application
+services:
+  # Define the Portainer service
+  portainer:
+    # Use the latest Portainer Community Edition image
+    image: portainer/portainer-ce:latest
+    # Set the container name to "portainer"
+    container_name: portainer
+    # Always restart the container unless stopped
+    restart: unless-stopped
+    # Mount some volumes into the container
+    volumes:
+      # Mount the host's time zone file into the container
+      - /etc/localtime:/etc/localtime:ro
+      # Mount the host's Docker socket file into the container (read-only)
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Mount the directory for Portainer data as "/data" inside the container
+      - ./portainer-data:/data
+    # Expose port 9000 in the container to port 9000 on the host
+    ports:
+      - 9000:9000

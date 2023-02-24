@@ -1,0 +1,29 @@
+# Specify the version of the Compose file
+version: '3'
+
+# Define the volume for Grafana data
+volumes:
+  grafana-data:
+    driver: local
+
+# Define the service for Grafana
+services:
+  grafana:
+    # Use the latest version of the Grafana image
+    image: grafana/grafana-oss:latest
+    # Set the container name
+    container_name: grafana
+    # Publish port 3000 on the host to port 3000 in the container
+    ports:
+      - "3000:3000"
+    # Mount the "grafana-data" volume to /var/lib/grafana in the container
+    volumes:
+      - grafana-data:/var/lib/grafana
+    # Restart the container unless stopped
+    restart: unless-stopped
+
+# Define the network named "nginxproxymanager_default"
+networks:
+  default:
+    name: nginxproxymanager_default
+    external: true

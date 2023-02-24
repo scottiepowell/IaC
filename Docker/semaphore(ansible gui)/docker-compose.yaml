@@ -1,0 +1,74 @@
+# SEMAPHORE_ACCESS_KEY_ENCRYPTION variable must be generated using command head -c32 /dev/urandom | base64
+# The URL will be available on https://localhost:3000 or whatever port is chosen 
+# Derivated from instructions at https://docs.ansible-semaphore.com/administration-guide/installation#docker
+
+# Define the networks for the services
+networks:
+  nginxproxymanager_default: # use an external network defined in another Docker Compose file
+    external: true
+  backend: # create a new network for the Semaphore service
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+
+# Define the services that make up the application
+services:
+  mysql:
+    # Connect the service to the backend network
+    networks:
+      - backend
+    # Restart the container unless stopped
+    restart: unless-stopped
+    # Map port 3306 on the host to port 3306 on the container
+    ports:
+      - 3306:3306
+    # Use the specified MySQL image
+    image: mysql:${IMAGE_TAG_MYSQL}
+    # Set the hostname of the container to the specified MySQL host
+    hostname: ${MYSQL_HOST}
+    # Mount a volume to persist the MySQL data
+    volumes:
+      - semaphore-mysql:/var/lib/mysql
+    # Set environment variables for the MySQL server
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: ${MYSQL_RANDOM_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+  semaphore:
+    # Connect the service to the backend and nginxproxymanager_default networks
+    networks:
+      - backend
+      - nginxproxymanager_default
+    # Restart the container unless stopped
+    restart: unless-stopped
+    # Map the specified port on the host to port 3000 on the container
+    ports:
+      - ${SEMAPHORE_PORT}:3000
+    # Use the specified Semaphore image
+    image: semaphoreui/semaphore:${SEMAPHORE_IMAGE} 
+    # Set environment variables for the Semaphore service
+    environment:
+      SEMAPHORE_DB_USER: ${SEMAPHORE_DB_USER}
+      SEMAPHORE_DB_PASS: ${SEMAPHORE_DB_PASSWORD}
+      SEMAPHORE_DB_HOST: ${SEMAPHORE_DB_HOST} #change to postgres for postgres
+      SEMAPHORE_DB_PORT: ${SEMAPHORE_DB_PORT} # change to 5432 for postgres
+      SEMAPHORE_DB_DIALECT: ${SEMAPHORE_DB_DIALECT}
+      SEMAPHORE_DB: ${SEMAPHORE_DB} # change to semaphore?sslmode=disable for postgres
+      SEMAPHORE_PLAYBOOK_PATH: ${SEMAPHORE_PLAYBOOK_PATH}
+      SEMAPHORE_ADMIN_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
+      SEMAPHORE_ADMIN_NAME: ${SEMAPHORE_ADMIN_NAME}
+      SEMAPHORE_ADMIN_EMAIL: ${SEMAPHORE_ADMIN_EMAIL}
+      SEMAPHORE_ADMIN: ${SEMAPHORE_ADMIN}
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMAPHORE_ACCESS_KEY_ENCRYPTION}
+      SEMAPHORE_LDAP_ACTIVATED: ${SEMAPHORE_LDAP_ACTIVATED} # set to yes if you wish to use LDAP
+    # Depend on the MySQL service
+    depends_on:
+      - mysql #change to postgres for postgres
+
+# Define a volume to persist the MySQL data
+volumes:
+  semaphore-mysql: #switch to semaphore-postgres to use Postgres

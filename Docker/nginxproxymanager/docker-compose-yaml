@@ -1,0 +1,54 @@
+# Define the version of the Compose file format
+version: '2'
+
+# Define the services that make up the application
+services:
+  
+  # Define the app service using the 'jc21/nginx-proxy-manager' image
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    # Restart the app service unless stopped
+    restart: unless-stopped
+    # Publish ports 80, 81, and 443 to the host
+    ports:
+    - '80:80'
+    - '81:81'
+    - '443:443'
+    # Set environment variables for the app service
+    environment:
+      # Set the database host to the value of DB_HOST
+      DB_MYSQL_HOST: ${DB_HOST}
+      # Set the database port to the value of DB_PORT
+      DB_MYSQL_PORT: ${DB_PORT}
+      # Set the database user to the value of DB_USER
+      DB_MYSQL_USER: ${DB_USER}
+      # Set the database password to the value of DB_PASSWORD
+      DB_MYSQL_PASSWORD: ${DB_PASSWORD}
+      # Set the database name to the value of DB_NAME
+      DB_MYSQL_NAME: ${DB_NAME}
+    # Mount two volumes into the app service
+    volumes:
+      # Mount the 'data' directory as '/data' inside the app service
+      - ./data:/data
+      # Mount the 'letsencrypt' directory as '/etc/letsencrypt' inside the app service
+      - ./letsencrypt:/etc/letsencrypt
+
+  # Define the db service using the 'jc21/mariadb-aria' image
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    # Restart the db service unless stopped
+    restart: unless-stopped
+    # Set environment variables for the db service
+    environment:
+      # Set the root password for the db service to the value of ROOT_PASSWORD
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+      # Set the name of the db to the value of DB_NAME
+      MYSQL_DATABASE: ${DB_NAME}
+      # Set the db user to the value of DB_USER
+      MYSQL_USER: ${DB_USER}
+      # Set the db password to the value of DB_PASSWORD
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    # Mount the 'data/mysql' directory as '/var/lib/mysql' inside the db service
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      

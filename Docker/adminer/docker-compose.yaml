@@ -1,0 +1,42 @@
+# Define the version of the Docker Compose file
+version: '3.7'
+
+# Define the services that make up the application
+services:
+
+  # Define the database service
+  db:
+    # Use the latest MySQL image
+    image: mysql:latest
+    # Use the mysql_native_password authentication plugin
+    command: --default-authentication-plugin=mysql_native_password
+    # Set the container name
+    container_name: dbserver
+    # Define environment variables for the MySQL server
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MY_SQL_ROOT_PASSWORD}    # Specify the root password for MySQL
+      MYSQL_DATABASE: ${MY_SQL_DB}                    # Specify the name of the MySQL database
+      MYSQL_USER: ${MY_SQL_USER}                      # Specify the username for the MySQL user
+      MYSQL_PASSWORD: ${MY_SQL_PASSWORD}              # Specify the password for the MySQL user
+    # Map port 3307 on the host to port 3306 on the container
+    ports:
+      - 3307:3306
+    # Mount a volume to persist the MySQL data
+    volumes:
+      - db:/var/lib/mysql                           # Mount the "db" volume to /var/lib/mysql
+
+  # Define the Adminer service
+  adminer_container:
+    # Use the latest Adminer image
+    image: adminer:latest
+    # Set environment variables for Adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: dbserver              # Specify the MySQL server host
+      ADMINER_DESIGN: galkaev                       # Specify the Adminer design to use
+    # Map port 8181 on the host to port 8080 on the container
+    ports:
+      - 8181:8080
+
+# Define a volume to persist the MySQL data
+volumes:
+  db:                                              # Define the "db" volume

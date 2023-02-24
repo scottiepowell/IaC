@@ -1,0 +1,33 @@
+# Define the version of the Compose file format
+version: "2.1"
+
+# Define a service named "mariadb"
+services:
+  mariadb:
+    # Use the "lscr.io/linuxserver/mariadb" image
+    image: lscr.io/linuxserver/mariadb
+    # Set the container name to "mariadb"
+    container_name: mariadb
+    # Set environment variables for the container
+    environment:
+      # Set the user ID inside the container to 1000
+      - PUID=1000
+      # Set the group ID inside the container to 1000
+      - PGID=1000
+      # Set the root password for MySQL
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      # Set the timezone inside the container to America/Denver
+      - TZ=America/Denver
+      # Set the MySQL user
+      - MYSQL_USER=${MYSQL_USER}
+      # Set the MySQL password
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    # Mount a volume for the configuration data
+    volumes:
+      # Mount the directory for the config as "/config" inside the container
+      - ~/mariadb/config:/config
+    # Publish port 3306 in the container to port 3306 on the host
+    ports:
+      - 3306:3306
+    # Restart the container unless stopped
+    restart: unless-stopped
