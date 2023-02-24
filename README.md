@@ -10,13 +10,13 @@ I also want to give a shout-out to Christian Lempa (https://github.com/Christian
 
 ## [](https://github.com/scottiepowell/boilerplates-xcad2k#sections)Sections
 
-[Ansible](https://github.com/scottiepowell/IaC/tree/main/ansible) - IT automation tool to configure systems, deploy software, and orchestrate IT tasks.
+[Ansible](https://github.com/scottiepowell/IaC/tree/main/Ansible) - IT automation tool to configure systems, deploy software, and orchestrate IT tasks.
 
 [Docker](https://github.com/scottiepowell/IaC/tree/main/Docker) - Package applications as portable container images to run in any environment.
 
-[Kubernetes](https://github.com/scottiepowell/IaC/tree/main/kubernetes) - Container orchestrator to run applications in scalable environments.
+[Kubernetes](https://github.com/scottiepowell/IaC/tree/main/Kubernetes) - Container orchestrator to run applications in scalable environments.
 
-[Terraform](https://github.com/scottiepowell/IaC/tree/main/terraform) - Infrastructure as code software to plan, deploy and manage infrastructure.
+[Terraform](https://github.com/scottiepowell/IaC/tree/main/Terraform) - Infrastructure as code software to plan, deploy and manage infrastructure.
 
 [Linux(bash)](https://github.com/scottiepowell/IaC/tree/main/Bash(Linux)) - Linux based snippets and scripts that can be adapted for different use cases.
 
