@@ -1,0 +1,3 @@
+## Kubernetes Collection
+
+Introducing a fantastic collection of Kubernetes resources that I've curated for learning and experimentation purposes! These resources feature some of the most common use cases and solutions that you may encounter while working on a business project. However, I must stress that this is for development environments only and shouldn't be deployed in a production environment. It's important to note that the resources haven't undergone rigorous testing with day-to-day operations' tactics, techniques, and procedures.

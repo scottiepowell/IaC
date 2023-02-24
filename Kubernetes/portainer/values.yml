@@ -1,0 +1,3 @@
+portainer:
+  host: portainer.your-domain.com
+  servicePort: 9000
