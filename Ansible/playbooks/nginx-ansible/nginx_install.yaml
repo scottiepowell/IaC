@@ -1,0 +1,9 @@
+# This playbook updates the nginx package to the latest version and starts the nginx service on all hosts
+- hosts: all
+  tasks:
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+    - name: start nginx
+      service:
+          name: nginx
+          state: started

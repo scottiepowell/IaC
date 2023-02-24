@@ -1,0 +1,71 @@
+# Define the hosts to be managed by this playbook
+- hosts: ssh
+
+  # Set the devops_password variable for use in tasks
+  vars:
+    - devops_password: 'devops'
+
+  # Disable fact gathering to speed up the playbook
+  gather_facts: no
+
+  # Specify the remote user to connect to the hosts
+  remote_user: scott
+
+  # Enable privilege escalation to become root
+  become: true
+
+  # Define a list of tasks to execute on the remote hosts
+  tasks:
+
+    # Add a new user named devops with the specified password
+    - name: Add a new user named devops
+      ansible.builtin.user:
+        name: devops
+        password: "{{ devops_password }}"
+        shell: /bin/bash
+        createhome: yes
+        home: /home/devops
+
+    # Add the devops user to the sudoers file
+    - name: Add devops user to the sudoers
+      copy:
+        dest: "/etc/sudoers.d/devops"
+        content: "devops  ALL=(ALL)  NOPASSWD: ALL"
+
+    # Deploy the SSH key for the devops user
+    - name: Deploy SSH Key
+      authorized_key:
+        user: devops
+        key: "{{ lookup('file', '/home/devops/.ssh/id_rsa.pub') }}"
+        state: present
+
+    # Disable password authentication for SSH
+    - name: Disable Password Authentication
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication'
+        line: "PasswordAuthentication no"
+        state: present
+        backup: yes
+      notify:
+        - restart ssh
+
+    # Disable root login for SSH
+    - name: Disable Root Login
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin'
+        line: "PermitRootLogin no"
+        state: present
+        backup: yes
+      notify:
+        - restart ssh
+
+  # Define a list of handlers to be notified by tasks
+  handlers:
+
+    # Restart the SSH service if it has been modified
+    - name: restart ssh
+      service:
+        name: sshd
+        state: restarted

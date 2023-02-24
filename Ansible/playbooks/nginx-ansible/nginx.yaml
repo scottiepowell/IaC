@@ -1,0 +1,52 @@
+# Target web hosts
+- hosts: web
+
+  # List of tasks to be executed on the target hosts
+  tasks:
+
+    # Ping the target hosts
+    - name: ping the hosts
+      action: ping
+      become: yes
+
+    # Ensure the latest version of nginx is installed
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+      become: yes
+
+    # Start nginx service
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+      become: yes
+
+    # Copy the nginx config file and restart nginx
+    - name: copy the nginx config file and restart nginx
+      copy:
+        src: /home/scott/ansible/nginx-ansible/static_site.cfg
+        dest: /etc/nginx/sites-available/static_site.cfg
+      become: yes
+
+    # Create symlink
+    - name: create symlink
+      file:
+        src: /etc/nginx/sites-available/static_site.cfg
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+      become: yes
+
+    # Copy the content of the web site
+    - name: copy the content of the web site
+      copy:
+        src: /home/scott/ansible/nginx-ansible/static-site-src/
+        dest: /home/scott/static-site
+
+    # Restart nginx
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
+
+  
