@@ -1,0 +1,12 @@
+proxmox_api_url = 
+proxmox_api_token_id = 
+proxmox_api_token_secret = 
+ssh_public_key = 
+root_password = 
+public_ip = 
+vmid = 
+vm_name=
+vm_count = 
+ssh_user = 
+vm_desc=
+ssh_private_key = 
