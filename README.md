@@ -1,12 +1,12 @@
 # Boilerplates for Automation and Deployment
 
-Welcome to my collection of deployment templates and configurations for various projects. These templates and configurations are based on popular deployment and automation tools, including Ansible, Docker, Terraform, and more.  These resources are intended to serve as a foundation for your deployment needs, and can be extended and customized to meet your specific requirements. 
+I am pleased to share with you my collection of deployment templates and configurations for various projects. These templates and configurations are based on popular deployment and automation tools such as Ansible, Docker, Terraform, and more. They serve as a foundation for your deployment needs, and can be customized to meet your specific requirements.
 
-# Warning
+It is important to note that some of the scripts and templates were designed for non-production and offline environments. As such, it is essential to adapt them accordingly before using them in production environments.
 
-Please note that some of the scripts and templates were designed for non-production and offline environments, so be sure to adapt them accordingly before using them in production environments.
+I had the opportunity to use these templates to train personnel at work, and I must say that they were an invaluable resource for teaching and introducing new members to the deployment process.
 
-Thank you for considering these templates for your deployment needs, and I hope you find them useful in your projects.
+I also want to give a shout-out to Christian Lempa (https://github.com/ChristianLempa) for his DevOps YouTube videos, which provided me with valuable insights and inspired me to share my knowledge through this collection of templates. Thank you for considering these templates for your deployment needs, and I hope you find them useful in your projects.
 
 ## [](https://github.com/scottiepowell/boilerplates-xcad2k#sections)Sections
 
