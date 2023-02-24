@@ -18,5 +18,5 @@ I also want to give a shout-out to Christian Lempa (https://github.com/Christian
 
 [Terraform](https://github.com/scottiepowell/IaC/tree/main/terraform) - Infrastructure as code software to plan, deploy and manage infrastructure.
 
-[Linux(bash)](https://github.com/scottiepowell/IaC/tree/main/bash) - Linux based snippets and scripts that can be adapted for different use cases.
+[Linux(bash)](https://github.com/scottiepowell/IaC/tree/main/Bash(Linux)) - Linux based snippets and scripts that can be adapted for different use cases.
 
