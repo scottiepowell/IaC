@@ -10,15 +10,12 @@ Certmanager is a Kubernetes add-on that automates the management and issuance of
 
 To install Certmanager, you can run the following command:
 
-Copy code
 
 `terraform apply -target=helm_release.certmanager`
 
 ### Usage
 
 Once Certmanager has been installed on your cluster, you can define a certificate issuer and certificate manifests to generate and manage SSL/TLS certificates. Here's an example:
-
-yamlCopy code
 
 `apiVersion: cert-manager.io/v1 kind: ClusterIssuer metadata:   name: letsencrypt-staging spec:   acme:     server: https://acme-staging-v02.api.letsencrypt.org/directory     email: user@example.com     privateKeySecretRef:       name: letsencrypt-staging     solvers:     - http01:         ingress:           class: traefik  --- apiVersion: cert-manager.io/v1 kind: Certificate metadata:   name: example-com spec:   secretName: example-com-tls   issuerRef:     name: letsencrypt-staging     kind: ClusterIssuer   commonName: example.com   dnsNames:   - example.com   - www.example.com`
 
@@ -29,16 +26,12 @@ Traefik is a modern, dynamic, and flexible reverse-proxy and load-balancing tool
 ### Installation
 
 To install Traefik, you can run the following command:
-
-Copy code
-
 `terraform apply -target=helm_release.traefik`
 
 ### Usage
 
 Once Traefik has been installed on your cluster, you can configure it to route incoming traffic to different services running on your cluster. Here's an example:
 
-yamlCopy code
 
 `apiVersion: networking.k8s.io/v1beta1 kind: Ingress metadata:   name: whoami   annotations:     kubernetes.io/ingress.class: traefik spec:   rules:   - host: whoami.example.com     http:       paths:       - path: /         backend:           serviceName: whoami           servicePort: 80`
 
